@@ -1,34 +1,37 @@
-#A poorly written example of a program in Python. It prompts the user for the number of elements to sum, takes those integers as input, and handles some basic error cases
+MAX_ELEMENTS = 100
 
-MAX = 100
+def calculate_sum(elements: list[int]) -> int:
+   return sum(elements)
 
-def calculate_sum(arr):
-   result = 0
-   for num in arr:
-      result += num
-   return result
+def get_number_of_elements() -> int:
+   while True:
+      try:
+         num_elements = int(input("Enter the number of elements (1-100): "))
+         if 1 <= num_elements <= MAX_ELEMENTS:
+            return num_elements
+         else:
+            print("Invalid input. Please provide a number ranging from 1 to 100.")
+      except ValueError:
+         print("Invalid input. Please enter a valid integer.")
 
-def main():
+def get_elements(num_elements: int) -> list[int]:
+   elements = []
+   print(f"Enter {num_elements} integers:")
+   for _ in range(num_elements):
+      while True:
+         try:
+            elements.append(int(input()))
+            break
+         except ValueError:
+            print("Invalid input. Please enter a valid integer.")
+   return elements
+
+def main() -> None:
    try:
-      n = int(input("Enter the number of elements (1-100): "))
-      if not 1 <= n <= MAX:
-            print("Invalid input. Please provide a digit ranging from 1 to 100.")
-            exit(1)
-
-      arr = []
-
-      print(f"Enter {n} integers:")
-      for _ in range(n):
-            try:
-               arr.append(int(input()))
-            except ValueError:
-               print("Invalid input. Please enter valid integers.")
-               exit(1)
-
-      total = calculate_sum(arr)
-
-      print("Sum of the numbers:", total)
-
+      num_elements = get_number_of_elements()
+      elements = get_elements(num_elements)
+      total_sum = calculate_sum(elements)
+      print("Sum of the numbers:", total_sum)
    except KeyboardInterrupt:
       print("\nProgram terminated by user.")
       exit(1)
